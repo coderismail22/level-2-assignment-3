@@ -4,11 +4,12 @@ import cookieParser from "cookie-parser";
 
 const app: Application = express();
 
-//parsers
+// parsers
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: ["http://localhost:5000/api/v1"] }));
 
+// use
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
