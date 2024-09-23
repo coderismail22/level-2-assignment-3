@@ -24,6 +24,7 @@ const createCarValidationSchema = z.object({
     .number({ required_error: 'Price per hour is required' })
     .positive('Price per hour must be a positive number'),
 });
+
 // Update car validation
 const updateCarValidationSchema = z.object({
   name: z
