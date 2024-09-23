@@ -13,7 +13,16 @@ const bookACar = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const getUserBookings = async () => {};
+
+const getUserBookings = catchAsync(async (req, res) => {
+  const result = await BookingServices.getUserBookingsFromDB();
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'My Bookings retrieved successfully',
+    data: result,
+  });
+});
 
 export const BookingControllers = {
   getAllBookings,

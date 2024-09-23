@@ -38,7 +38,7 @@ const getASingleCar = catchAsync(async (req, res) => {
 
 // 4. return a car
 const returnACar = catchAsync(async (req, res) => {
-  const result = await CarServices.returnACarIntoDB();
+  const result = await CarServices.returnACarIntoDB(req.body);
   sendResponse(res, {
     success: true,
     statusCode: 200,

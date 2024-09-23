@@ -1,5 +1,10 @@
-import { TCar } from './car.interface';
-import { Car } from './car.model';
+import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
+import { TBooking } from "../booking/booking.interface";
+import { Booking } from "../booking/booking.model";
+import { TCar } from "./car.interface";
+import { Car } from "./car.model";
+import { calculateTimeDifferenceInHours } from "./car.util";
 
 // 1. create a car
 const createCarIntoDB = async (payload: TCar) => {
@@ -21,8 +26,36 @@ const getASingleCarFromDB = async (id: string) => {
 
 // TODO: Return a car
 // 4.Return a car (Admin only)
-const returnACarIntoDB = async () => {
-  // logic
+const returnACarIntoDB = async (payload: {
+  bookingId: string;
+  endTime: string;
+}) => {
+  const { bookingId, endTime } = payload;
+
+  // find the booking
+  const booking = await Booking.findById(bookingId);
+
+  // check: does the booking exist
+  if (!booking) {
+    throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
+  }
+
+  const { startTime, carId } = booking;
+  const pricePerHourObj = await Car.findOne(carId).select("pricePerHour -_id");
+  const pricePerHour = Number(pricePerHourObj?.pricePerHour);
+
+  console.log(startTime, endTime);
+
+  const duration = calculateTimeDifferenceInHours(startTime, endTime);
+
+  const totalCost = duration * pricePerHour;
+  console.log(totalCost);
+
+  // const result = await Booking.findByIdAndUpdate(id, {
+  // update status: "status": "available"
+  // update totalCost: "totalCost":1000
+  // });
+  // return result;
 };
 
 // TODO: Update non-primitive fields
