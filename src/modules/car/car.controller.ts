@@ -1,46 +1,75 @@
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
 import { CarServices } from './car.service';
 
 // 1. create a car
-const createCar = async () => {
-  const result = await CarServices.createCarIntoDB;
-  //   send response
-  //   use catchAsync
-};
+const createCar = catchAsync(async (req, res) => {
+  const result = await CarServices.createCarIntoDB(req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: 201,
+    message: 'Car created successfully',
+    data: result,
+  });
+});
 
-// 2. create a car
-const getAllCars = async () => {
-  const result = await CarServices.getAllCarsFromDB;
-  //   send response
-  //   use catchAsync
-};
+// 2. get all cars
+const getAllCars = catchAsync(async (req, res) => {
+  const result = await CarServices.getAllCarsFromDB();
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Cars retrieved successfully',
+    data: result,
+  });
+});
 
-// 1. create a car
-const getASingleCar = async () => {
-  const result = await CarServices.getASingleCarFromDB;
-  //   send response
-  //   use catchAsync
-};
+// 3. get a single car
+const getASingleCar = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await CarServices.getASingleCarFromDB(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'A car retrieved successfully',
+    data: result,
+  });
+});
 
-// 1. create a car
-const returnACar = async () => {
-  const result = await CarServices.returnACarIntoDB;
-  //   send response
-  //   use catchAsync
-};
+// 4. return a car
+const returnACar = catchAsync(async (req, res) => {
+  const result = await CarServices.returnACarIntoDB();
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car returned successfully',
+    data: result,
+  });
+});
 
-// 1. create a car
-const updateACar = async () => {
-  const result = await CarServices.updateCarIntoDB;
-  //   send response
-  //   use catchAsync
-};
+// 5. update a car
+const updateACar = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await CarServices.updateCarIntoDB(id, req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car updated successfully',
+    data: result,
+  });
+});
 
-// 1. create a car
-const deleteACar = async () => {
-  const result = await CarServices.deleteCarFromDB;
-  //   send response
-  //   use catchAsync
-};
+// 6. delete a car
+const deleteACar = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await CarServices.deleteCarFromDB(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car Deleted successfully',
+    data: result,
+  });
+});
 
 export const CarControllers = {
   createCar,

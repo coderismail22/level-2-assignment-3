@@ -6,18 +6,18 @@ const router = express.Router();
 router.post('/', CarControllers.createCar);
 
 // 2.Get all cars
-router.get('/', CarControllers.createCar);
+router.get('/', CarControllers.getAllCars);
 
 // 3.Get a single car
-router.get('/:id', CarControllers.createCar);
+router.get('/:id', CarControllers.getASingleCar);
 
 // 4.Return a car (Admin only)
-router.get('/return', CarControllers.createCar);
+router.put('/return', CarControllers.returnACar);
 
 // 5.Update a single car (Admin only)
-router.put('/:id', CarControllers.createCar);
+router.put('/:id', CarControllers.updateACar);
 
 // 6.Delete a single car (Admin only)
-router.delete('/:id', CarControllers.createCar);
+router.delete('/:id', CarControllers.deleteACar);
 
 export const CarRoutes = router;

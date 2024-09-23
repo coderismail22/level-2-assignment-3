@@ -2,7 +2,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { TCar } from './car.interface';
 
-const CarSchema: Schema = new Schema(
+const CarSchema: Schema = new Schema<TCar>(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -15,7 +15,12 @@ const CarSchema: Schema = new Schema(
     },
     features: { type: [String], default: [] },
     pricePerHour: { type: Number, required: true },
-    isDeleted: { type: Boolean, default: false },
+    isDeleted: {
+      type: Boolean,
+      required: true,
+      enum: ['true', 'false'],
+      default: false,
+    },
   },
   { timestamps: true },
 );

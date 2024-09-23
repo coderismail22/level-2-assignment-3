@@ -24,6 +24,7 @@ const createCarValidationSchema = z.object({
     pricePerHour: z
       .number({ required_error: 'Price per hour is required' })
       .positive('Price per hour must be a positive number'),
+    isDeleted: z.boolean({ required_error: 'isDeleted is required' }),
   }),
 });
 
@@ -51,6 +52,7 @@ const updateCarValidationSchema = z.object({
     pricePerHour: z
       .number({ required_error: 'Price per hour is required' })
       .positive('Price per hour must be a positive number'),
+    isDeleted: z.boolean({ required_error: 'isDeleted is required' }),
   }),
 });
 
