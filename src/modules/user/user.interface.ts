@@ -7,3 +7,9 @@ export type TUser = {
   phone: string;
   address: string;
 };
+
+// Login
+export type TLoginUser = {
+  email: string;
+  password: string;
+};
