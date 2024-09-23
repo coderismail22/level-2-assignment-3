@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from 'express';
 import { AuthServices } from './auth.service';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
@@ -9,7 +8,7 @@ const signUp = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Signed up successfully !',
+    message: 'User registered successfully',
     data: result,
   });
 });
@@ -19,7 +18,7 @@ const signIn = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Signed in successfully !',
+    message: 'User logged in successfully',
     data: result,
   });
 });
