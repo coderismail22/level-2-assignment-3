@@ -1,11 +1,14 @@
 import { TLoginUser, TUser } from '../user/user.interface';
+import { User } from '../user/user.model';
 
 const signUp = async (payload: TUser) => {
-  // logic
+  const result = await User.create(payload);
+  return result;
 };
 
 const signIn = async (payload: TLoginUser) => {
-  // logic
+  const result = await User.find(payload);
+  return result;
 };
 
 export const AuthServices = {
