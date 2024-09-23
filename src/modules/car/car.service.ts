@@ -15,12 +15,17 @@ const getASingleCarFromDB = async () => {
   // logic
 };
 
-// 4. update a single car
+// 4.Return a car (Admin only)
+const returnACarIntoDB = async () => {
+  // logic
+};
+
+// 5. update a single car
 const updateCarIntoDB = async (payload: Partial<TCar>) => {
   // logic
 };
 
-// 5. delete a single car
+// 6. delete a single car
 const deleteCarFromDB = async (payload: Partial<TCar>) => {
   // logic
 };
@@ -29,6 +34,7 @@ export const CarServices = {
   createCarIntoDB,
   getAllCarsFromDB,
   getASingleCarFromDB,
+  returnACarIntoDB,
   updateCarIntoDB,
   deleteCarFromDB,
 };
