@@ -15,6 +15,6 @@ router.post(
 );
 
 // Get user bookings (User only)
-router.post("/", BookingControllers.getUserBookings);
+router.get("/", BookingControllers.getUserBookings);
 
 export const BookingRoutes = router;

@@ -25,8 +25,8 @@ const getASingleCarFromDB = async (id: string) => {
   return result;
 };
 
-// TODO: Return a car
 // 4.Return a car (Admin only)
+// TODO: Role: Auth('Admin')
 const returnACarIntoDB = async (payload: {
   bookingId: string;
   endTime: string;

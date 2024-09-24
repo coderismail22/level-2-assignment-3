@@ -6,12 +6,29 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 
 // getAllBookings
-const getAllBookingsFromDB = async () => {
-  // logic
+// TODO: set auth("admin")
+// TODO: add query builder
+const getAllBookingsFromDB = async (filters: {
+  carId?: string;
+  date?: string;
+}) => {
+  const query: any = {};
+
+  // Apply filters if they are present in the request
+  if (filters.carId) {
+    query.car = filters.carId;
+  }
+
+  if (filters.date) {
+    query.date = filters.date;
+  }
+
+  // Fetch bookings based on query filters
+  const result = await Booking.find(query).populate("car user");
+  return result;
 };
 
-// TODO: zod validation (refine for date and  others)
-// Book a car and update the car status to unavailable
+// TODO: set auth("user")
 const bookACarIntoDB = async (payload: {
   carId: string;
   date: string;
@@ -83,8 +100,7 @@ const bookACarIntoDB = async (payload: {
   }
 };
 
-// TODO: My bookings
-// Get user bookings (User only)
+// TODO: set auth("user")
 const getUserBookingsFromDB = async () => {
   // first get user role and id from token then do all the stuff...
   const result = await Booking.find({
