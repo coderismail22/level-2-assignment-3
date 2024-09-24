@@ -5,29 +5,6 @@ import { Car } from "../car/car.model";
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 
-// getAllBookings
-// TODO: set auth("admin")
-// TODO: add query builder
-const getAllBookingsFromDB = async (filters: {
-  carId?: string;
-  date?: string;
-}) => {
-  const query: any = {};
-
-  // Apply filters if they are present in the request
-  if (filters.carId) {
-    query.car = filters.carId;
-  }
-
-  if (filters.date) {
-    query.date = filters.date;
-  }
-
-  // Fetch bookings based on query filters
-  const result = await Booking.find(query).populate("car user");
-  return result;
-};
-
 // TODO: set auth("user")
 const bookACarIntoDB = async (payload: {
   carId: string;
@@ -98,6 +75,29 @@ const bookACarIntoDB = async (payload: {
     // End the session
     session.endSession();
   }
+};
+
+// getAllBookings
+// TODO: set auth("admin")
+// TODO: add query builder
+const getAllBookingsFromDB = async (filters: {
+  carId?: string;
+  date?: string;
+}) => {
+  const query: any = {};
+
+  // Apply filters if they are present in the request
+  if (filters.carId) {
+    query.car = filters.carId;
+  }
+
+  if (filters.date) {
+    query.date = filters.date;
+  }
+
+  // Fetch bookings based on query filters
+  const result = await Booking.find(query).populate("car user");
+  return result;
 };
 
 // TODO: set auth("user")
