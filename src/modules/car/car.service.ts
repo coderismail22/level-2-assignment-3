@@ -5,6 +5,7 @@ import { Booking } from "../booking/booking.model";
 import { TCar } from "./car.interface";
 import { Car } from "./car.model";
 import { calculateTimeDifferenceInHours } from "./car.util";
+import mongoose from "mongoose";
 
 // 1. create a car
 const createCarIntoDB = async (payload: TCar) => {
@@ -32,30 +33,93 @@ const returnACarIntoDB = async (payload: {
 }) => {
   const { bookingId, endTime } = payload;
 
-  // find the booking
-  const booking = await Booking.findById(bookingId);
+  // Start a session for transaction
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  // check: does the booking exist
-  if (!booking) {
-    throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
+  try {
+    // 1. Find the booking
+    const booking = await Booking.findById(bookingId).session(session);
+
+    // 2. Check: Does the booking exist?
+    if (!booking) {
+      throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
+    }
+
+    const { startTime, car } = booking;
+
+    // 3. Find the car and get price per hour
+    const pricePerHourObj = await Car.findById(car)
+      .select("pricePerHour")
+      .session(session);
+    const pricePerHour = Number(pricePerHourObj?.pricePerHour);
+
+    if (!pricePerHour) {
+      throw new AppError(
+        httpStatus.NOT_FOUND,
+        "Car price information not found",
+      );
+    }
+
+    console.log(startTime, endTime);
+
+    // 4. Calculate the duration and total cost
+    const duration = calculateTimeDifferenceInHours(startTime, endTime);
+    const totalCost = duration * pricePerHour;
+    console.log(totalCost);
+
+    // 5. Update the booking with endTime and totalCost
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      bookingId,
+      {
+        totalCost,
+        endTime,
+      },
+      {
+        new: true,
+        runValidators: true,
+        session,
+      },
+    );
+
+    if (!updatedBooking) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Unable to update the booking.",
+      );
+    }
+
+    // 6. Update the car's status to available after the return
+    const updateCarStatus = await Car.findByIdAndUpdate(
+      car,
+      { status: "available" },
+      { new: true, session },
+    );
+
+    if (!updateCarStatus) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Unable to update car status.",
+      );
+    }
+
+    // 7. Commit the transaction
+    await session.commitTransaction();
+
+    // 8. Find and return the updated booking
+    const result = Booking.findById(bookingId).populate(
+      "user car",
+      "-password",
+    ); // Populating user and car;
+    return result;
+  } catch (error) {
+    // 9. Rollback the transaction if anything goes wrong
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    // 10. End the session
+    session.endSession();
   }
-
-  const { startTime, car } = booking;
-  const pricePerHourObj = await Car.findOne(car).select("pricePerHour -_id");
-  const pricePerHour = Number(pricePerHourObj?.pricePerHour);
-
-  console.log(startTime, endTime);
-
-  const duration = calculateTimeDifferenceInHours(startTime, endTime);
-
-  const totalCost = duration * pricePerHour;
-  console.log(totalCost);
-
-  const result = await Booking.findByIdAndUpdate(bookingId, {
-    status: "available",
-    totalCost: 1000,
-  });
-  // return result;
 };
 
 // TODO: Update non-primitive fields

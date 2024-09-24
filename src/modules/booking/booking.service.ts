@@ -18,7 +18,7 @@ const bookACarIntoDB = async (payload: {
   startTime: string;
 }) => {
   const { carId: car, date, startTime } = payload;
-  const user = "66f287f2302f6a7d3c928dcd"; // later add from jwt
+  const user = "66f2bda37e60c8df1cff8f03"; // later add from jwt
 
   // Start a session for transaction (optional, if you want to ensure both operations happen together)
   const session = await mongoose.startSession();
@@ -39,10 +39,18 @@ const bookACarIntoDB = async (payload: {
     }
 
     // 1. Create the booking record
-    const result = await Booking.create([{ car, date, startTime, user }], {
+    const newBooking = await Booking.create([{ car, date, startTime, user }], {
       session,
     });
-    console.log(result);
+
+    if (!newBooking) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Could not create a new booking",
+      );
+    }
+    // Extract the booking id
+    const newBookingId = (newBooking?.[0]._id as Object).toString();
 
     // 2. Update the car's status to unavailable
     const updateCarStatus = await Car.findByIdAndUpdate(
@@ -60,7 +68,11 @@ const bookACarIntoDB = async (payload: {
 
     // Commit the transaction
     await session.commitTransaction();
-    return result[0]; // Return the populated booking result
+
+    // 3. Find the latest booking record
+    const result = await Booking.findById(newBookingId).populate("user car");
+    console.log("result", result);
+    return result; // Return the populated booking result
   } catch (error) {
     // Abort the transaction if an error occurs
     await session.abortTransaction();
