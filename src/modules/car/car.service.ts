@@ -40,8 +40,8 @@ const returnACarIntoDB = async (payload: {
     throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
   }
 
-  const { startTime, carId } = booking;
-  const pricePerHourObj = await Car.findOne(carId).select("pricePerHour -_id");
+  const { startTime, car } = booking;
+  const pricePerHourObj = await Car.findOne(car).select("pricePerHour -_id");
   const pricePerHour = Number(pricePerHourObj?.pricePerHour);
 
   console.log(startTime, endTime);
