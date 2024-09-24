@@ -61,8 +61,6 @@ const returnACarIntoDB = async (payload: {
       );
     }
 
-    console.log(startTime, endTime);
-
     // 4. Calculate the duration and total cost
     const duration = calculateTimeDifferenceInHours(startTime, endTime);
     const totalCost = duration * pricePerHour;
