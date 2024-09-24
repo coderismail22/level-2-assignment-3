@@ -51,10 +51,10 @@ const returnACarIntoDB = async (payload: {
   const totalCost = duration * pricePerHour;
   console.log(totalCost);
 
-  // const result = await Booking.findByIdAndUpdate(id, {
-  // update status: "status": "available"
-  // update totalCost: "totalCost":1000
-  // });
+  const result = await Booking.findByIdAndUpdate(bookingId, {
+    status: "available",
+    totalCost: 1000,
+  });
   // return result;
 };
 
