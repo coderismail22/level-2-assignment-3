@@ -6,22 +6,28 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { User } from "../user/user.model";
 
-
-const bookACarIntoDB = async (payload: {
-  carId: string;
-  date: string;
-  startTime: string;
-}) => {
+const bookACarIntoDB = async (
+  payload: {
+    carId: string;
+    date: string;
+    startTime: string;
+  },
+  userEmail: string,
+) => {
   const { carId: car, date, startTime } = payload;
-  const user = "66f2bda37e60c8df1cff8f03"; // later add from jwt
+  const email = userEmail; // later add from jwt
 
   // Start a session for transaction (optional, if you want to ensure both operations happen together)
   const session = await mongoose.startSession();
   session.startTransaction();
 
+  const userId = await User.findOne({ email: userEmail }).select("_id");
+  const user = userId?._id.toString();
+
   try {
     // Check if the car is already unavailable
     const carData = await Car.findById(car);
+
     if (!carData) {
       throw new AppError(httpStatus.NOT_FOUND, "Car not found");
     }

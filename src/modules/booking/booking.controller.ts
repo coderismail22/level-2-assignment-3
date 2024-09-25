@@ -30,7 +30,9 @@ const getAllBookings = catchAsync(async (req, res) => {
 });
 
 const bookACar = catchAsync(async (req, res) => {
-  const result = await BookingServices.bookACarIntoDB(req.body);
+  const { userEmail } = req?.user;
+
+  const result = await BookingServices.bookACarIntoDB(req.body, userEmail);
   sendResponse(res, {
     success: true,
     statusCode: 200,
