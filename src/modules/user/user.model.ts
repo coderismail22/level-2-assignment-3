@@ -1,6 +1,6 @@
 // User Schema
 import mongoose, { Schema } from "mongoose";
-import { TUser } from "./user.interface";
+import { TUser, UserModel } from "./user.interface";
 import bcrypt from "bcrypt";
 import config from "../../config";
 
@@ -33,4 +33,12 @@ userSchema.post("save", function (doc, next) {
   next();
 });
 
-export const User = mongoose.model<TUser>("User", userSchema);
+// statics
+userSchema.statics.doPasswordsMatch = async function (
+  plainPassword: string,
+  hashedPassword: string,
+) {
+  return bcrypt.compare(plainPassword, hashedPassword);
+};
+
+export const User = mongoose.model<TUser, UserModel>("User", userSchema);
