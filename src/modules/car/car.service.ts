@@ -8,7 +8,6 @@ import { calculateTimeDifferenceInHours } from "./car.util";
 import mongoose from "mongoose";
 
 // 1. create a car
-// todo: auth("admin")
 async function createCarIntoDB(payload: TCar) {
   const result = await Car.create(payload);
   return result;
@@ -131,7 +130,6 @@ const updateCarIntoDB = async (id: string, payload: Partial<TCar>) => {
 };
 
 // 6. delete a single car
-// todo : auth('admin')
 const deleteCarFromDB = async (id: string) => {
   const result = await Car.findByIdAndUpdate(
     id,

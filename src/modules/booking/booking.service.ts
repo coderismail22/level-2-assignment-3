@@ -6,7 +6,7 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { User } from "../user/user.model";
 
-// TODO: set auth("user") and replace the static user id here
+
 const bookACarIntoDB = async (payload: {
   carId: string;
   date: string;
@@ -78,9 +78,6 @@ const bookACarIntoDB = async (payload: {
   }
 };
 
-// getAllBookings
-// TODO: set auth("admin")
-// TODO: add query builder
 const getAllBookingsFromDB = async (filters: {
   carId?: string;
   date?: string;

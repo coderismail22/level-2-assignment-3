@@ -6,7 +6,11 @@ import { User } from "../user/user.model";
 import config from "../../config";
 
 const signUp = async (payload: TUser) => {
-  const result = await User.create(payload);
+  const user = await User.create(payload);
+  const userEmail = user?.email;
+
+  const result = await User.findOne({ email: userEmail }).select("-password");
+
   return result;
 };
 

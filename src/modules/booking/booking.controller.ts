@@ -4,9 +4,16 @@ import { BookingServices } from "./booking.service";
 
 const getAllBookings = catchAsync(async (req, res) => {
   const { carId, date } = req.query;
-  const result = await BookingServices.getAllBookingsFromDB({ carId, date });
+
+  // Ensure that carId and date are either strings or undefined
+  const filters = {
+    carId: typeof carId === "string" ? carId : undefined,
+    date: typeof date === "string" ? date : undefined,
+  };
+
+  const result = await BookingServices.getAllBookingsFromDB(filters);
   //if there are no result
-  if (!result) {
+  if (!result || result.length === 0) {
     return sendResponse(res, {
       success: false,
       statusCode: 404,
