@@ -4,6 +4,7 @@ import { Booking } from "./booking.model";
 import { Car } from "../car/car.model";
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
+import { User } from "../user/user.model";
 
 // TODO: set auth("user") and replace the static user id here
 const bookACarIntoDB = async (payload: {
@@ -100,13 +101,16 @@ const getAllBookingsFromDB = async (filters: {
   return result;
 };
 
+const getUserBookingsFromDB = async (email: string) => {
+  // first find user by email and get _id
+  const user = await User.findOne({ email: email });
+  const userId = user?._id;
 
-const getUserBookingsFromDB = async () => {
-  // first get user role and id from token then do all the stuff...
-  // const result = await Booking.find({
-  // user: id, // from jwt token
-  // });
-  const result = 10;
+  // find all the bookings of the specific user
+  const result = await Booking.find({
+    user: userId,
+  });
+
   return result;
 };
 

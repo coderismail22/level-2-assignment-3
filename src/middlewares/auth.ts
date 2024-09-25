@@ -34,8 +34,9 @@ const auth = (...requiredRoles: TUserRole[]) => {
       });
     }
 
-    const { role } = decoded;
+    const { userEmail, role } = decoded;
 
+    // Check if the user's role matches the required roles
     if (requiredRoles.length && !requiredRoles.includes(role)) {
       return sendResponse(res, {
         statusCode: httpStatus.FORBIDDEN,
@@ -44,7 +45,8 @@ const auth = (...requiredRoles: TUserRole[]) => {
       });
     }
 
-    //   req.user = { role };
+    // Attach the user's email and role to the request object
+    req.user = decoded;
     next();
   });
 };
