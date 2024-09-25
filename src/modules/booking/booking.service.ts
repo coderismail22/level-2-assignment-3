@@ -5,7 +5,7 @@ import { Car } from "../car/car.model";
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 
-// TODO: set auth("user")
+// TODO: set auth("user") and replace the static user id here
 const bookACarIntoDB = async (payload: {
   carId: string;
   date: string;

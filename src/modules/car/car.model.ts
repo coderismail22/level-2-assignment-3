@@ -18,7 +18,6 @@ const CarSchema: Schema = new Schema<TCar>(
     isDeleted: {
       type: Boolean,
       required: true,
-      enum: ["true", "false"],
       default: false,
     },
   },

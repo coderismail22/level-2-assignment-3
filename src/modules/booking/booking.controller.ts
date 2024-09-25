@@ -3,7 +3,7 @@ import sendResponse from "../../utils/sendResponse";
 import { BookingServices } from "./booking.service";
 
 const getAllBookings = catchAsync(async (req, res) => {
-  const { carId, date } = req.query; // Get carId and date from query parameters
+  const { carId, date } = req.query;
   const result = await BookingServices.getAllBookingsFromDB({ carId, date });
   sendResponse(res, {
     success: true,

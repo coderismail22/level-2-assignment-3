@@ -6,10 +6,10 @@ import { TCar } from "../car/car.interface";
 const BookingSchema: Schema = new Schema<TBooking>(
   {
     date: { type: String, required: true },
-    user: { type: Schema.Types.ObjectId, ref: "User" },
+    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
     car: { type: Schema.Types.ObjectId, ref: "Car", required: true },
-    startTime: { type: String }, // "HH:mm" format
-    endTime: { type: String, default: null }, // "HH:mm" format
+    startTime: { type: String }, // "HH:MM" format
+    endTime: { type: String, default: null }, // "HH:MM" format
     totalCost: { type: Number, default: 0 }, // Calculated field, can be updated later
   },
   { timestamps: true },
