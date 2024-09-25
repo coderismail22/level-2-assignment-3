@@ -20,7 +20,7 @@ router.get("/", CarControllers.getAllCars);
 router.get("/:id", CarControllers.getASingleCar);
 
 // 4.Return a car (Admin only)
-router.put("/return", CarControllers.returnACar);
+router.put("/return", auth("admin"), CarControllers.returnACar);
 
 // 5.Update a single car (Admin only)
 router.put(
