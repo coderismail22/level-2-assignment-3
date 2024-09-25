@@ -100,12 +100,14 @@ const getAllBookingsFromDB = async (filters: {
   return result;
 };
 
-// TODO: set auth("user")
+
 const getUserBookingsFromDB = async () => {
   // first get user role and id from token then do all the stuff...
-  const result = await Booking.find({
-    // user: id, // from jwt token
-  });
+  // const result = await Booking.find({
+  // user: id, // from jwt token
+  // });
+  const result = 10;
+  return result;
 };
 
 export const BookingServices = {

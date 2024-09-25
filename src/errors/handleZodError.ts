@@ -1,5 +1,6 @@
-import { ZodError, ZodIssue } from 'zod';
-import { TErrorMessages, TGenericErrorResponse } from '../interface/error';
+import { ZodError, ZodIssue } from "zod";
+import { TErrorMessages, TGenericErrorResponse } from "../interface/error";
+import httpStatus from "http-status";
 
 const handleZodError = (err: ZodError): TGenericErrorResponse => {
   const errorMessages: TErrorMessages = err.issues.map((issue: ZodIssue) => {
@@ -9,11 +10,11 @@ const handleZodError = (err: ZodError): TGenericErrorResponse => {
     };
   });
 
-  const statusCode = 400;
+  const statusCode = httpStatus.NOT_FOUND;
 
   return {
     statusCode,
-    message: 'Validation Error',
+    message: "Validation Error",
     errorMessages,
   };
 };
