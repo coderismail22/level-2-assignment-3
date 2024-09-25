@@ -23,9 +23,14 @@ router.get("/:id", CarControllers.getASingleCar);
 router.put("/return", CarControllers.returnACar);
 
 // 5.Update a single car (Admin only)
-router.put("/:id", CarControllers.updateACar);
+router.put(
+  "/:id",
+  auth("admin"),
+  validateRequest(CarValidations.updateCarValidationSchema),
+  CarControllers.updateACar,
+);
 
 // 6.Delete a single car (Admin only)
-router.delete("/:id", CarControllers.deleteACar);
+router.delete("/:id", auth("admin"), CarControllers.deleteACar);
 
 export const CarRoutes = router;

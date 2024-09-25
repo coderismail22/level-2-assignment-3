@@ -10,7 +10,7 @@ const handleZodError = (err: ZodError): TGenericErrorResponse => {
     };
   });
 
-  const statusCode = httpStatus.NOT_FOUND;
+  const statusCode = httpStatus.BAD_REQUEST;
 
   return {
     statusCode,

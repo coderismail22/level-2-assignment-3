@@ -121,9 +121,9 @@ const returnACarIntoDB = async (payload: {
   }
 };
 
-// TODO: Update non-primitive fields
 // 5. update a single car
 const updateCarIntoDB = async (id: string, payload: Partial<TCar>) => {
+  // without handling non-primitive fields
   const result = await Car.findByIdAndUpdate(id, payload, {
     runValidators: true,
     new: true,
