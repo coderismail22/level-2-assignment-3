@@ -1,7 +1,6 @@
 // Booking Schema
 import mongoose, { Schema } from "mongoose";
 import { TBooking } from "./booking.interface";
-import { TCar } from "../car/car.interface";
 
 const BookingSchema: Schema = new Schema<TBooking>(
   {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import httpStatus from "http-status";
@@ -34,7 +35,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
       });
     }
 
-    const { userEmail, role } = decoded;
+    const { role } = decoded;
 
     // Check if the user's role matches the required roles
     if (requiredRoles.length && !requiredRoles.includes(role)) {

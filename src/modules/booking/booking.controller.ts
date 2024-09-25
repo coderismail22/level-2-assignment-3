@@ -44,7 +44,6 @@ const bookACar = catchAsync(async (req, res) => {
 const getUserBookings = catchAsync(async (req, res) => {
   const { userEmail } = req?.user;
   const result = await BookingServices.getUserBookingsFromDB(userEmail);
-  console.log("from get user booking controller result", result);
   //if there are no result
   if (!(result.length > 0)) {
     return sendResponse(res, {

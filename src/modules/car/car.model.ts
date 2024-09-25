@@ -25,4 +25,4 @@ const CarSchema: Schema = new Schema<TCar>(
 );
 
 export const Car = mongoose.model<TCar & mongoose.Document>("Car", CarSchema);
-CarSchema;
+

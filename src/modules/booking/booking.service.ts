@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
 import { Car } from "../car/car.model";
 import httpStatus from "http-status";
@@ -15,7 +14,6 @@ const bookACarIntoDB = async (
   userEmail: string,
 ) => {
   const { carId: car, date, startTime } = payload;
-  const email = userEmail; // later add from jwt
 
   // Start a session for transaction (optional, if you want to ensure both operations happen together)
   const session = await mongoose.startSession();
@@ -72,7 +70,6 @@ const bookACarIntoDB = async (
 
     // 3. Find the latest booking record
     const result = await Booking.findById(newBookingId).populate("user car");
-    console.log("result", result);
     return result; // Return the populated booking result
   } catch (error) {
     // Abort the transaction if an error occurs

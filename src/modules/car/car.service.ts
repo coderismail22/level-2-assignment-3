@@ -1,6 +1,5 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { TBooking } from "../booking/booking.interface";
 import { Booking } from "../booking/booking.model";
 import { TCar } from "./car.interface";
 import { Car } from "./car.model";
@@ -63,7 +62,6 @@ const returnACarIntoDB = async (payload: {
     // 4. Calculate the duration and total cost
     const duration = calculateTimeDifferenceInHours(startTime, endTime);
     const totalCost = duration * pricePerHour;
-    console.log(totalCost);
 
     // 5. Update the booking with endTime and totalCost
     const updatedBooking = await Booking.findByIdAndUpdate(
