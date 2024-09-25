@@ -1,7 +1,9 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
+import jwt from "jsonwebtoken";
 import { TLoginUser, TUser } from "../user/user.interface";
 import { User } from "../user/user.model";
+import config from "../../config";
 
 const signUp = async (payload: TUser) => {
   const result = await User.create(payload);
@@ -32,7 +34,16 @@ const signIn = async (payload: TLoginUser) => {
 
   const userData = user.toObject() as Partial<TUser>;
   delete userData.password;
-  const token = "replaceWithActualToken";
+
+  // token generation
+  // const token = "replaceWithActualToken";
+  const jwtPayload = { userEmail: user?.email, role: user?.role };
+  const secret = config.jwt_access_token as string;
+  const expiresIn = config.jwt_access_token_expires_in as string;
+
+  const token = jwt.sign(jwtPayload, secret, {
+    expiresIn,
+  });
 
   return {
     userData,
