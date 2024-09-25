@@ -7,8 +7,13 @@ const signUp = async (payload: TUser) => {
 };
 
 const signIn = async (payload: TLoginUser) => {
-  const result = await User.find(payload);
-  return result;
+  const { email, password } = payload;
+  const userData = await User.find({ email }).select("-password");
+  const token = "replaceWithActualToken";
+  return {
+    userData,
+    token,
+  };
 };
 
 export const AuthServices = {
