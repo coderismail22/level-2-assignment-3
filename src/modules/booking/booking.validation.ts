@@ -19,7 +19,7 @@ const dateStringFormatSchema = z.string().refine(
   },
   {
     message: "Invalid date format, expected YYYY-MM-DD.",
-  }
+  },
 );
 
 // Final validation schema
